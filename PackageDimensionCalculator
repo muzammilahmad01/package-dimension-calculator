@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+public class PackageDimensionCalculator {
+    
+    // Calculate package dimensions based on item size
+    public static double[] calculatePackageDimensions(double itemLength, double itemWidth, double itemHeight) {
+        // Add padding (2 cm on each side for protection)
+        double PADDING = 2.0;
+        
+        double packageLength = itemLength + (2 * PADDING);
+        double packageWidth = itemWidth + (2 * PADDING);
+        double packageHeight = itemHeight + (2 * PADDING);
+        
+        return new double[]{packageLength, packageWidth, packageHeight};
+    }
+    
+    // Calculate package volume
+    public static double calculateVolume(double length, double width, double height) {
+        return length * width * height;
+    }
+    
+    // Determine shipping category based on volume
+    public static String determineShippingCategory(double volume) {
+        if (volume <= 1000) {
+            return "Small Package";
+        } else if (volume <= 10000) {
+            return "Medium Package";
+        } else if (volume <= 50000) {
+            return "Large Package";
+        } else {
+            return "Extra Large Package";
+        }
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== Package Dimension Calculator ===");
+        System.out.println("Enter item dimensions (in cm):\n");
+        
+        // Input item dimensions
+        System.out.print("Enter item length: ");
+        double itemLength = scanner.nextDouble();
+        
+        System.out.print("Enter item width: ");
+        double itemWidth = scanner.nextDouble();
+        
+        System.out.print("Enter item height: ");
+        double itemHeight = scanner.nextDouble();
+        
+        // Calculate package dimensions
+        double[] packageDimensions = calculatePackageDimensions(itemLength, itemWidth, itemHeight);
+        
+        // Calculate volumes
+        double itemVolume = calculateVolume(itemLength, itemWidth, itemHeight);
+        double packageVolume = calculateVolume(packageDimensions[0], packageDimensions[1], packageDimensions[2]);
+        
+        // Display results
+        System.out.println("\n=== Results ===");
+        System.out.println("\nItem Dimensions:");
+        System.out.printf("Length: %.2f cm\n", itemLength);
+        System.out.printf("Width: %.2f cm\n", itemWidth);
+        System.out.printf("Height: %.2f cm\n", itemHeight);
+        System.out.printf("Volume: %.2f cm³\n", itemVolume);
+        
+        System.out.println("\nPackage Dimensions (with padding):");
+        System.out.printf("Length: %.2f cm\n", packageDimensions[0]);
+        System.out.printf("Width: %.2f cm\n", packageDimensions[1]);
+        System.out.printf("Height: %.2f cm\n", packageDimensions[2]);
+        System.out.printf("Volume: %.2f cm³\n", packageVolume);
+        
+        System.out.println("\nShipping Category: " + determineShippingCategory(packageVolume));
+        
+        scanner.close();
+    }
+}
